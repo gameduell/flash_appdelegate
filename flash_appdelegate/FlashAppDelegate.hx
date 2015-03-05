@@ -26,6 +26,16 @@ class FlashAppDelegate
     **/
     public var onRemoveFromStage(default, null): Signal1<Dynamic>;
 
+    /**
+      * Dispatched when the application gets active.
+    **/
+    public var onActivate(default, null): Signal1<Dynamic>;
+
+    /**
+      * Dispatched when the application gets inactive.
+    **/
+    public var onDeactivate(default, null): Signal1<Dynamic>;
+
     static private var appDelegateInstance: FlashAppDelegate;
 
     private var stage: Stage = flash.Lib.current.stage;
@@ -35,6 +45,8 @@ class FlashAppDelegate
         onMouseLeave = new Signal1();
         onAddedToStage = new Signal1();
         onRemoveFromStage = new Signal1();
+        onActivate = new Signal1();
+        onDeactivate = new Signal1();
         connectListeners();
 	}
 
@@ -43,6 +55,8 @@ class FlashAppDelegate
         stage.addEventListener(Event.MOUSE_LEAVE, onMouseLeave.dispatch);
         flash.Lib.current.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage.dispatch);
         flash.Lib.current.addEventListener(Event.REMOVED_FROM_STAGE, onRemoveFromStage.dispatch);
+        stage.addEventListener(Event.ACTIVATE, onActivate.dispatch);
+        stage.addEventListener(Event.DEACTIVATE, onDeactivate.dispatch);
     }
 
 	static public inline function instance(): FlashAppDelegate
