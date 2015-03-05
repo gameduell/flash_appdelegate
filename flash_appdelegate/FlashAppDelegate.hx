@@ -4,24 +4,46 @@
  */
 package flash_appdelegate;
 
-import cpp.Lib;
-
+import flash.events.Event;
+import flash.Lib;
+import flash.display.Stage;
 import msignal.Signal;
 
 class FlashAppDelegate 
 {
-
     /**
       * Dispatched by the Stage object when the pointer moves out of the stage area.
     **/
-    public var onMouseLeave(default, null): Signal0;
+    public var onMouseLeave(default, null): Signal1<Dynamic>;
+
+    /**
+      * Dispatched when the MovieClip is added to the stage. This is the callback when the application starts.
+    **/
+    public var onAddedToStage(default, null): Signal1<Dynamic>;
+
+    /**
+      * Dispatched when the MovieClip is removed from the stage. This is the callback when the application terminates.
+    **/
+    public var onRemoveFromStage(default, null): Signal1<Dynamic>;
 
     static private var appDelegateInstance: FlashAppDelegate;
 
+    private var stage: Stage = flash.Lib.current.stage;
+
 	private function new(): Void
-  {
-        onMouseLeave = new Signal0();
+    {
+        onMouseLeave = new Signal1();
+        onAddedToStage = new Signal1();
+        onRemoveFromStage = new Signal1();
+        connectListeners();
 	}
+
+    private function connectListeners(): Void
+    {
+        stage.addEventListener(Event.MOUSE_LEAVE, onMouseLeave.dispatch);
+        flash.Lib.current.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage.dispatch);
+        flash.Lib.current.addEventListener(Event.REMOVED_FROM_STAGE, onRemoveFromStage.dispatch);
+    }
 
 	static public inline function instance(): FlashAppDelegate
 	{
