@@ -14,27 +14,27 @@ class FlashAppDelegate
     /**
       * Dispatched by the Stage object when the pointer moves out of the stage area.
     **/
-    public var onMouseLeave(default, null): Signal1<Dynamic>;
+    public var onMouseLeave(default, null): Signal0;
 
     /**
       * Dispatched when the MovieClip is added to the stage. This is the callback when the application starts.
     **/
-    public var onAddedToStage(default, null): Signal1<Dynamic>;
+    public var onAddedToStage(default, null): Signal0;
 
     /**
       * Dispatched when the MovieClip is removed from the stage. This is the callback when the application terminates.
     **/
-    public var onRemoveFromStage(default, null): Signal1<Dynamic>;
+    public var onRemoveFromStage(default, null): Signal0;
 
     /**
       * Dispatched when the application gets active.
     **/
-    public var onActivate(default, null): Signal1<Dynamic>;
+    public var onActivate(default, null): Signal0;
 
     /**
       * Dispatched when the application gets inactive.
     **/
-    public var onDeactivate(default, null): Signal1<Dynamic>;
+    public var onDeactivate(default, null): Signal0;
 
     static private var appDelegateInstance: FlashAppDelegate;
 
@@ -42,21 +42,21 @@ class FlashAppDelegate
 
 	private function new(): Void
     {
-        onMouseLeave = new Signal1();
-        onAddedToStage = new Signal1();
-        onRemoveFromStage = new Signal1();
-        onActivate = new Signal1();
-        onDeactivate = new Signal1();
+        onMouseLeave = new Signal0();
+        onAddedToStage = new Signal0();
+        onRemoveFromStage = new Signal0();
+        onActivate = new Signal0();
+        onDeactivate = new Signal0();
         connectListeners();
 	}
 
     private function connectListeners(): Void
     {
-        stage.addEventListener(Event.MOUSE_LEAVE, onMouseLeave.dispatch);
-        flash.Lib.current.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage.dispatch);
-        flash.Lib.current.addEventListener(Event.REMOVED_FROM_STAGE, onRemoveFromStage.dispatch);
-        stage.addEventListener(Event.ACTIVATE, onActivate.dispatch);
-        stage.addEventListener(Event.DEACTIVATE, onDeactivate.dispatch);
+        stage.addEventListener(Event.MOUSE_LEAVE, function (event: Dynamic){onMouseLeave.dispatch();});
+        flash.Lib.current.addEventListener(Event.ADDED_TO_STAGE, function (event: Dynamic){onAddedToStage.dispatch();});
+        flash.Lib.current.addEventListener(Event.REMOVED_FROM_STAGE, function (event: Dynamic){onRemoveFromStage.dispatch();});
+        stage.addEventListener(Event.ACTIVATE, function (event: Dynamic){onActivate.dispatch();});
+        stage.addEventListener(Event.DEACTIVATE, function (event: Dynamic){onDeactivate.dispatch();});
     }
 
 	static public inline function instance(): FlashAppDelegate
